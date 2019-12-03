@@ -37,7 +37,7 @@ namespace forgit.Providers
         {
             try
             {
-                using StreamWriter writer = new StreamWriter(File.Open(path, FileMode.Open, FileAccess.Write));
+                using StreamWriter writer = new StreamWriter(File.Open(path, FileMode.Create, FileAccess.Write));
                 await writer.WriteAsync(JsonSerializer.Serialize(repositories));
             }
             catch (FileNotFoundException ex)

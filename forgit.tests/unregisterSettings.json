@@ -7,10 +7,6 @@
     {
       "Name": "unregister",
       "Path": "C:/"
-    },
-    {
-      "Name": "registered",
-      "Path": "C:/"
     }
   ]
 }
