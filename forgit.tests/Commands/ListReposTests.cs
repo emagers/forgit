@@ -16,11 +16,6 @@ namespace forgit.tests.Commands
         private readonly Mock<IOutput> mockOutputter = new Mock<IOutput>();
         private readonly ISettings settings = new Settings("validSettings.json");
 
-        public ListReposTests()
-        {
-
-        }
-
         [Fact]
         public async Task ListCommand_ShouldListAllProjectsInSettings()
         {
