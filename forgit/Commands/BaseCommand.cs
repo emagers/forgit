@@ -13,7 +13,5 @@ namespace forgit.Commands
             this.settings = settings;
             this.output = output;
         }
-
-        public abstract Task Execute();
     }
 }

@@ -1,19 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using forgit.Interfaces;
 using forgit.Models;
-using forgit.Options;
 
 namespace forgit.Commands
 {
-    public class ListRepos : BaseCommand
+    public class ListRepos : BaseCommand, IBaseCommand
     {
         public ListRepos(ISettings settings, IOutput output) : base(settings, output)
         {
 
         }
 
-        public override async Task Execute()
+        public async Task Execute(IOptions options)
         {
             RepositoryList repositories = await settings.GetRepositories();
 

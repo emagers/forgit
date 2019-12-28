@@ -8,24 +8,24 @@ using forgit.Options;
 
 namespace forgit.Commands
 {
-    public class Show : BaseCommand
+    public class Show : BaseCommand, IBaseCommand
     {
-        private readonly ShowOptions options;
-
-        public Show(ISettings settings, IOutput output, ShowOptions options) : base(settings, output)
+        public Show(ISettings settings, IOutput output) : base(settings, output)
         {
-            this.options = options;
+
         }
 
-        public override async Task Execute()
+        public async Task Execute(IOptions options)
         {
+            ShowOptions showOptions = options as ShowOptions;
+
             RepositoryList repositories = await settings.GetRepositories();
 
-            Repository repo = repositories.Repositories.FirstOrDefault(repo => repo.Name.Equals(options.Name, StringComparison.OrdinalIgnoreCase));
+            Repository repo = repositories.Repositories.FirstOrDefault(repo => repo.Name.Equals(showOptions.Name, StringComparison.OrdinalIgnoreCase));
 
             if (repo == null)
             {
-                throw new RepositoryNotRegisteredException(options.Name);
+                throw new RepositoryNotRegisteredException(showOptions.Name);
             }
 
             await output.WriteLine($"{repo.Name.PadRight(30)}{repo.Path.PadRight(50)}", Enums.TextColor.White);
