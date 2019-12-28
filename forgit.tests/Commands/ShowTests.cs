@@ -17,15 +17,15 @@ namespace forgit.tests.Commands
         [Fact]
         public async Task ShowRepository_RepoDoesntExist_ShouldThrowException()
         {
-            Show command = new Show(settings, output.Object, new ShowOptions { Name = "nope" });
-            await Assert.ThrowsAsync<RepositoryNotRegisteredException>(() => command.Execute());
+            Show command = new Show(settings, output.Object);
+            await Assert.ThrowsAsync<RepositoryNotRegisteredException>(() => command.Execute(new ShowOptions { Name = "nope" }));
         }
 
         [Fact]
         public async Task ShowRepository_RepoDoesExist_ShouldOutput()
         {
-            Show command = new Show(settings, output.Object, new ShowOptions { Name = "default" });
-            await command.Execute();
+            Show command = new Show(settings, output.Object);
+            await command.Execute(new ShowOptions { Name = "default" });
             output.Verify(x => x.WriteLine($"{"default".PadRight(30)}{"C:/".PadRight(50)}", Enums.TextColor.White), Times.Once);
         }
     }

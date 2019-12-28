@@ -8,30 +8,30 @@ using forgit.Options;
 
 namespace forgit.Commands
 {
-    public class Unregister : BaseCommand
+    public class Unregister : BaseCommand, IBaseCommand
     {
-        private readonly UnregisterOptions options;
-
-        public Unregister(ISettings settings, IOutput output, UnregisterOptions options) : base(settings, output)
+        public Unregister(ISettings settings, IOutput output) : base(settings, output)
         {
-            this.options = options;
+
         }
 
-        public override async Task Execute()
+        public async Task Execute(IOptions options)
         {
+            UnregisterOptions unregisterOptions = options as UnregisterOptions;
+
             RepositoryList repositoryList = await settings.GetRepositories();
 
-            Repository repository = repositoryList.Repositories.FirstOrDefault(repo => repo.Name.Equals(options.Name, StringComparison.OrdinalIgnoreCase));
+            Repository repository = repositoryList.Repositories.FirstOrDefault(repo => repo.Name.Equals(unregisterOptions.Name, StringComparison.OrdinalIgnoreCase));
 
             if (repository == null)
             {
-                throw new RepositoryNotRegisteredException(options.Name);
+                throw new RepositoryNotRegisteredException(unregisterOptions.Name);
             }
 
             repositoryList.Repositories.Remove(repository);
             await settings.SaveRepositories(repositoryList);
 
-            await output.WriteLine($"{options.Name} has been unregistered", Enums.TextColor.Cyan);
+            await output.WriteLine($"{unregisterOptions.Name} has been unregistered", Enums.TextColor.Cyan);
         }
     }
 }

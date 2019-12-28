@@ -1,39 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using forgit.Enums;
+using forgit.Exceptions;
 using forgit.Interfaces;
 using forgit.Options;
 
 namespace forgit.Commands
 {
-    public class Clone : BaseCommand
+    public class Clone : BaseCommand, IBaseCommand
     {
-        private readonly CloneOptions options;
         private readonly IProcessRunner processRunner;
+        private readonly IBaseCommand register;
 
-        public Clone(ISettings settings, IOutput output, IProcessRunner processRunner, CloneOptions options) : base(settings, output)
+        public Clone(ISettings settings, IOutput output, IProcessRunner processRunner, IBaseCommand register) : base(settings, output)
         {
-            this.options = options;
+            this.register = register;
+            this.processRunner = processRunner;
         }
 
-        public override async Task Execute()
+        public async Task Execute(IOptions options)
         {
-            if (string.IsNullOrEmpty(options.Path)) 
+            CloneOptions cloneOptions = options as CloneOptions;
+
+            string gitProjectName = ParseProjectNameFromGitUrl(cloneOptions.Url);
+            if (string.IsNullOrEmpty(cloneOptions.Path)) 
             {
-                options.Path = Environment.CurrentDirectory;
+                cloneOptions.Path = Environment.CurrentDirectory;
             }
 
-            if (string.IsNullOrEmpty(options.Name)) 
+            if (string.IsNullOrEmpty(cloneOptions.Name)) 
             {
-                options.Name = ParseProjectNameFromGitUrl(options.Url);
+                cloneOptions.Name = gitProjectName;
             }
 
-            processRunner.InvokeProcess(options.Path, "git clone", options.Url);
+            if (processRunner.InvokeProcess(cloneOptions.Path, "git clone", cloneOptions.Url))
+            {
 
-            await output.Write($"{options.Url} was cloned to {options.Path} with the project name: {options.Name}", TextColor.Cyan);
+                await output.Write($"{cloneOptions.Url} was cloned to {cloneOptions.Path} with the project name: {cloneOptions.Name}", TextColor.Cyan);
+                
+                await register.Execute(new RegisterOptions
+                {
+                    Name = cloneOptions.Name,
+                    Path = Path.Combine(cloneOptions.Path, gitProjectName)
+                });
+            }
+            else
+            {
+                throw new CloneException(gitProjectName);
+            }
         }
 
         private static string ParseProjectNameFromGitUrl(string url) => new Uri(url).Segments.Last().Split('.').First();

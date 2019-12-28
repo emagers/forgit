@@ -21,15 +21,15 @@ namespace forgit.tests.Commands
         [Fact]
         public async Task RegisterRepo_RepoNameAlreadyExists_ShouldThrowException()
         {
-            Register command = new Register(settings, mockOutputter.Object, new Options.RegisterOptions { Name = "registered", Path = $"C:{Path.DirectorySeparatorChar}" });
-            await Assert.ThrowsAsync<RepositoryAlreadyRegisteredException>(() => command.Execute());
+            Register command = new Register(settings, mockOutputter.Object);
+            await Assert.ThrowsAsync<RepositoryAlreadyRegisteredException>(() => command.Execute(new Options.RegisterOptions { Name = "registered", Path = $"C:{Path.DirectorySeparatorChar}" }));
         }
 
         [Fact]
         public async Task RegisterRepo_NoNameSpecified_NameShouldBeDirectoryName()
         {
-            Register command = new Register(settings, mockOutputter.Object, new Options.RegisterOptions { Path = $"C:{Path.DirectorySeparatorChar}registertest1" });
-            await command.Execute();
+            Register command = new Register(settings, mockOutputter.Object);
+            await command.Execute(new Options.RegisterOptions { Path = $"C:{Path.DirectorySeparatorChar}registertest1" });
 
             RepositoryList list = await settings.GetRepositories();
             Assert.Contains(list.Repositories, repo => repo.Name.Equals("registertest1", StringComparison.OrdinalIgnoreCase) && repo.Path.Equals($"C:{Path.DirectorySeparatorChar}registertest1"));
@@ -39,8 +39,8 @@ namespace forgit.tests.Commands
         [Fact]
         public async Task RegisterRepo_NoPathSpecified_PathShouldBeExecutingDirectory()
         {
-            Register command = new Register(settings, mockOutputter.Object, new Options.RegisterOptions { });
-            await command.Execute();
+            Register command = new Register(settings, mockOutputter.Object);
+            await command.Execute(new Options.RegisterOptions { });
 
             string dir = Environment.CurrentDirectory;
             string dirName = dir.Split(Path.DirectorySeparatorChar).Last();
@@ -53,8 +53,8 @@ namespace forgit.tests.Commands
         [Fact]
         public async Task RegisterRepo_PathAndNameSpecified_ShouldMatch()
         {
-            Register command = new Register(settings, mockOutputter.Object, new Options.RegisterOptions { Name = "test2", Path = $"C:{Path.DirectorySeparatorChar}registertest2" });
-            await command.Execute();
+            Register command = new Register(settings, mockOutputter.Object);
+            await command.Execute(new Options.RegisterOptions { Name = "test2", Path = $"C:{Path.DirectorySeparatorChar}registertest2" });
 
             RepositoryList list = await settings.GetRepositories();
             Assert.Contains(list.Repositories, repo => repo.Name.Equals("test2", StringComparison.OrdinalIgnoreCase) && repo.Path.Equals($"C:{Path.DirectorySeparatorChar}registertest2"));

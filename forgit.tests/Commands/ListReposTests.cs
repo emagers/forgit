@@ -1,6 +1,7 @@
 ﻿using forgit.Commands;
 using forgit.Enums;
 using forgit.Interfaces;
+using forgit.Options;
 using forgit.Providers;
 using Moq;
 using System;
@@ -21,7 +22,7 @@ namespace forgit.tests.Commands
         {
             ListRepos listCommand = new ListRepos(settings, mockOutputter.Object);
 
-            await listCommand.Execute();
+            await listCommand.Execute(new ListOptions());
 
             mockOutputter.Verify(x => x.Write(It.IsAny<string>(), It.IsAny<TextColor>()));
         }

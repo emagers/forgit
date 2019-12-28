@@ -19,15 +19,15 @@ namespace forgit.tests.Commands
         [Fact]
         public async Task UnregisterRepoNotRegistered_ShouldThrowException()
         {
-            Unregister command = new Unregister(settings, mockOutputter.Object, new Options.UnregisterOptions { Name = "nope" });
-            await Assert.ThrowsAsync<RepositoryNotRegisteredException>(() => command.Execute());
+            Unregister command = new Unregister(settings, mockOutputter.Object);
+            await Assert.ThrowsAsync<RepositoryNotRegisteredException>(() => command.Execute(new Options.UnregisterOptions { Name = "nope" }));
         }
 
         [Fact]
         public async Task UnregisterRegisteredRepo_ShouldRemoveRepo()
         {
-            Unregister command = new Unregister(settings, mockOutputter.Object, new Options.UnregisterOptions { Name = "unregister" });
-            await command.Execute();
+            Unregister command = new Unregister(settings, mockOutputter.Object);
+            await command.Execute(new Options.UnregisterOptions { Name = "unregister" });
 
             RepositoryList list = await settings.GetRepositories();
             Assert.DoesNotContain(list.Repositories, repo => repo.Name.Equals("unregister", StringComparison.OrdinalIgnoreCase));
