@@ -8,5 +8,6 @@ namespace forgit.Options
     {
         [Value(0, Required = true, HelpText = "The name of the repository to run git commands against")]
         public string Name { get; set; }
+        public string Command { get; set; }
     }
 }
