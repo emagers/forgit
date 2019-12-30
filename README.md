@@ -1,4 +1,6 @@
 # forgit
+![](https://github.com/emagers/forgit/workflows/build/badge.svg)
+
 A git CLI helper to allow running git commands for any repository from any directory
 
 ## Usage

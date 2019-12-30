@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using forgit.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace forgit.Commands
 {
-    class Git
+    public class Git : BaseCommand, IBaseCommand
     {
+        public Git(ISettings settings, IOutput output) : base(settings, output)
+        {
+        }
+
+        public Task Execute(IOptions options)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
