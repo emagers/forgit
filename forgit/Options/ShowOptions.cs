@@ -6,7 +6,7 @@ namespace forgit.Options
     [Verb("show", HelpText = "Displays a given repository.")]
     public class ShowOptions : IOptions
     {
-        [Option(Default = false, Required = true, HelpText = "The repository name to display.")]
+        [Option(shortName: 'n', longName: "name", Default = false, Required = true, HelpText = "The repository name to display.")]
         public string Name { get; set; }
     }
 }
