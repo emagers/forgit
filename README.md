@@ -3,9 +3,17 @@
 
 A git CLI helper to allow running git commands for any repository from any directory.
 
-## Building
+## Building From Source
 
 Simply pull the project and run `dotnet build` (requires [dotnetcore 3.1.100](https://dotnet.microsoft.com/download))
+
+If you need to compile the project for an runtime not already supported, add the runtime identifier to the forgit/forgit.csproj file. You can then run the command `dotnet publish -c Release -r \<your new rID\> --self-contained`.
+
+Currently supported runtimes:
+
+* win10-x64
+* osx-x64
+* linux-x64
 
 ## Contributing
 
