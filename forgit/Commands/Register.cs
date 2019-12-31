@@ -46,7 +46,9 @@ namespace forgit.Commands
             });
             await settings.SaveRepositories(repositoryList);
 
-            await output.WriteLine($"{registerOptions.Name} has been registered at {registerOptions.Path}", Enums.TextColor.Cyan);
+            await output.Write(registerOptions.Name, Enums.TextColor.Cyan);
+            await output.Write(" has been registered at ", (Enums.TextColor)Console.ForegroundColor);
+            await output.Write($"{registerOptions.Path}\n", Enums.TextColor.White);
         }
     }
 }

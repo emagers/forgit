@@ -19,17 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="cloneSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="invalidSettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="registerSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="unregisterSettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="validSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

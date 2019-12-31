@@ -31,7 +31,8 @@ namespace forgit.Commands
             repositoryList.Repositories.Remove(repository);
             await settings.SaveRepositories(repositoryList);
 
-            await output.WriteLine($"{unregisterOptions.Name} has been unregistered", Enums.TextColor.Cyan);
+            await output.Write($"\n{unregisterOptions.Name}", Enums.TextColor.Cyan);
+            await output.WriteLine(" has been unregistered", Enums.TextColor.White);
         }
     }
 }
