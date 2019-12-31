@@ -36,7 +36,7 @@ namespace forgit
                     git.Execute(new GitOptions
                     {
                         Name = args.First(),
-                        Command = string.Join(" ", args.Skip(1))
+                        Command = string.Join(" ", args.Skip(1).Select(x => x.Contains(" ") ? $"\"{x}\"" : x))
                     }).Wait();
                 }
                 else
