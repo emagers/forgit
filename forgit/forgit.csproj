@@ -1,8 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageProjectUrl>https://github.com/emagers/forgit</PackageProjectUrl>
+    <Authors>Eric Magers</Authors>
+    <Company />
+    <Product />
+    <Description>A CLI tool to help manage and work with git repositories located at various locations on your computer.</Description>
+    <Copyright>2019 - Eric Magers</Copyright>
+    <RepositoryUrl>https://github.com/emagers/forgit</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <TargetName Condition="'$(Configuration)'=='Release'">frgt</TargetName>
+    <AssemblyName Condition="'$(Configuration)'=='Release'">frgt</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

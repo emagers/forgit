@@ -35,7 +35,8 @@ namespace forgit.Commands
 
             if (string.IsNullOrEmpty(registerOptions.Name))
             {
-                registerOptions.Name = registerOptions.Path.Split(Path.DirectorySeparatorChar).Last();
+                DirectoryInfo directoryInfo = new DirectoryInfo(registerOptions.Path);
+                registerOptions.Name = directoryInfo.Name;
             }
 
             repositoryList.Repositories.Add(new Repository
