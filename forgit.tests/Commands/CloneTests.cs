@@ -36,7 +36,7 @@ namespace forgit.tests.Commands
             Clone command = new Clone(settings, mockOutputter.Object, mockProcessRunner.Object, register.Object);
             await command.Execute(options);
 
-            mockOutputter.Verify(x => x.Write($"{options.Url} was cloned to {options.Path} with the project name: forgit", It.IsAny<TextColor>()));
+            mockOutputter.Verify(x => x.WriteLine($"{options.Url} was cloned to {options.Path} with the project name: forgit", It.IsAny<TextColor>()));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace forgit.tests.Commands
             Clone command = new Clone(settings, mockOutputter.Object, mockProcessRunner.Object, register.Object);
             await command.Execute(options);
 
-            mockOutputter.Verify(x => x.Write($"{options.Url} was cloned to {Environment.CurrentDirectory} with the project name: {options.Name}", It.IsAny<TextColor>()));
+            mockOutputter.Verify(x => x.WriteLine($"{options.Url} was cloned to {Environment.CurrentDirectory} with the project name: {options.Name}", It.IsAny<TextColor>()));
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace forgit.tests.Commands
             Clone command = new Clone(settings, mockOutputter.Object, mockProcessRunner.Object, register.Object);
             await command.Execute(options);
 
-            mockOutputter.Verify(x => x.Write($"{options.Url} was cloned to {options.Path} with the project name: {options.Name}", It.IsAny<TextColor>()));
+            mockOutputter.Verify(x => x.WriteLine($"{options.Url} was cloned to {options.Path} with the project name: {options.Name}", It.IsAny<TextColor>()));
         }
 
         [Fact]

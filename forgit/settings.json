@@ -1,5 +1,8 @@
 {
   "Repositories": [
-
+    {
+      "Name": "forgit",
+      "Path": "C:\\Users\\Eric\\projects\\forgit"
+    }
   ]
 }

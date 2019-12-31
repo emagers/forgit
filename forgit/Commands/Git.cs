@@ -27,13 +27,13 @@ namespace forgit.Commands
                 throw new RepositoryNotRegisteredException(options.Name);
 
             List<string> command = options.Command.Split(' ').ToList();
-            if (command.Count <= 1 || command[0] != GIT)
+            if (command.Count >= 1 && command[0] == GIT)
             {
-                command = command.Prepend(GIT).ToList();
+                command.RemoveAt(0);
             }
             string finalCommand = string.Join(' ', command);
 
-            if (!processRunner.InvokeProcess(target.Path, finalCommand, string.Empty))
+            if (!processRunner.InvokeProcess(target.Path, GIT, finalCommand))
             {
                 throw new CommandExecutionException(finalCommand, target.Path);
             }

@@ -40,7 +40,8 @@ namespace forgit.tests.Commands
         public async Task Command_ShouldHaveGitPrepended(string command)
         {
             string repo = "forgit";
-            string expected = "git pull";
+            string expectedCommand = "git";
+            string expectedArg = "pull";
             settings.Setup(x => x.GetRepositories()).ReturnsAsync(
                 new Models.RepositoryList
                 {
@@ -53,7 +54,7 @@ namespace forgit.tests.Commands
                         }
                     }
                 });
-            processRunner.Setup(x => x.InvokeProcess(It.IsAny<string>(), expected, It.IsAny<string>())).Returns(true);
+            processRunner.Setup(x => x.InvokeProcess(It.IsAny<string>(), expectedCommand, expectedArg)).Returns(true);
 
             Git git = new Git(settings.Object, outputter.Object, processRunner.Object);
             await git.Execute(new GitOptions
@@ -62,7 +63,7 @@ namespace forgit.tests.Commands
                 Name = repo
             });
 
-            processRunner.Verify(x => x.InvokeProcess(string.Empty, expected, string.Empty), Times.Once);
+            processRunner.Verify(x => x.InvokeProcess(string.Empty, expectedCommand, expectedArg), Times.Once);
         }
 
         [Fact]
