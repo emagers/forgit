@@ -17,12 +17,14 @@ namespace forgit
         private static ISettings settings;
         private static IOutput outputter;
         private static IProcessRunner processRunner;
+        private static ConsoleColor systemDefault;
 
         static void Main(string[] args)
         {
             settings = new Settings(Path.Combine(AssemblyDirectory, SETTINGS_NAME));
             outputter = new ConsoleOutputter();
             processRunner = new ProcessRunner(outputter);
+            systemDefault = Console.ForegroundColor;
 
             string gitRunError = null;
 
@@ -89,14 +91,14 @@ namespace forgit
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine($"To run a git command in a registered project directory, use the format `<repositoryName> <gitCommand> <args>`");
-                        Console.ForegroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = systemDefault;
                     }
                 }
                 catch(Exception ex)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(ex.Message);
-                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = systemDefault;
                 }
             }
         }
