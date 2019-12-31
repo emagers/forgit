@@ -39,67 +39,76 @@ namespace forgit
                         Command = string.Join(" ", args.Skip(1))
                     }).Wait();
                 }
+                else
+                {
+                    RunCommandLine(args);
+                }
             }
             catch(Exception exception)
             {
                 gitRunError = exception.Message;
             }
 
-            if (args.Length <= 2 && !string.IsNullOrEmpty(gitRunError))
+            if (!string.IsNullOrEmpty(gitRunError))
             {
-                var parserResult = Parser.Default.ParseArguments<CloneOptions, RegisterOptions, UnregisterOptions, ShowOptions, ListOptions>(args);
-                try
-                {
-                    List<Error> result = parserResult.MapResult<CloneOptions, RegisterOptions, UnregisterOptions, ShowOptions, ListOptions, List<Error>>(
-                        (CloneOptions) => {
-                            new Clone(
-                                settings,
-                                outputter,
-                                processRunner,
-                                new Register(settings, outputter)
-                            ).Execute(CloneOptions).Wait();
+                RunCommandLine(args);
+            }
+        }
 
-                            return new List<Error>();
-                        },
-                        (RegisterOptions) =>
-                        {
-                            new Register(settings, outputter).Execute(RegisterOptions).Wait();
+        private static void RunCommandLine(string[] args)
+        {
+            var parserResult = Parser.Default.ParseArguments<CloneOptions, RegisterOptions, UnregisterOptions, ShowOptions, ListOptions>(args);
+            try
+            {
+                List<Error> result = parserResult.MapResult<CloneOptions, RegisterOptions, UnregisterOptions, ShowOptions, ListOptions, List<Error>>(
+                    (CloneOptions) => {
+                        new Clone(
+                            settings,
+                            outputter,
+                            processRunner,
+                            new Register(settings, outputter)
+                        ).Execute(CloneOptions).Wait();
 
-                            return new List<Error>();
-                        },
-                        (UnregisterOptions) =>
-                        {
-                            new Unregister(settings, outputter).Execute(UnregisterOptions).Wait();
-
-                            return new List<Error>();
-                        },
-                        (ShowOptions) =>
-                        {
-                            new Show(settings, outputter).Execute(ShowOptions).Wait();
-
-                            return new List<Error>();
-                        },
-                        (ListOptions) =>
-                        {
-                            new ListRepos(settings, outputter).Execute(ListOptions).Wait();
-
-                            return new List<Error>();
-                        },
-                        errs => errs.ToList());
-
-                    if (result.Any())
+                        return new List<Error>();
+                    },
+                    (RegisterOptions) =>
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"To run a git command in a registered project directory, use the format `<repositoryName> <gitCommand> <args>`");
-                        Console.ForegroundColor = systemDefault;
-                    }
-                }
-                catch(Exception ex)
+                        new Register(settings, outputter).Execute(RegisterOptions).Wait();
+
+                        return new List<Error>();
+                    },
+                    (UnregisterOptions) =>
+                    {
+                        new Unregister(settings, outputter).Execute(UnregisterOptions).Wait();
+
+                        return new List<Error>();
+                    },
+                    (ShowOptions) =>
+                    {
+                        new Show(settings, outputter).Execute(ShowOptions).Wait();
+
+                        return new List<Error>();
+                    },
+                    (ListOptions) =>
+                    {
+                        new ListRepos(settings, outputter).Execute(ListOptions).Wait();
+
+                        return new List<Error>();
+                    },
+                    errs => errs.ToList());
+
+                if (result.Any())
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(ex.Message);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"To run a git command in a registered project directory, use the format `<repositoryName> <gitCommand> <args>`");
                     Console.ForegroundColor = systemDefault;
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = systemDefault;
             }
         }
 
