@@ -14,6 +14,8 @@ namespace forgit.Providers
             Console.ForegroundColor = (ConsoleColor)textColor;
             Console.Write(output);
             Console.ForegroundColor = current;
+
+            await Task.CompletedTask;
         }
 
         public async Task WriteLine(string output, TextColor textColor)
@@ -23,6 +25,8 @@ namespace forgit.Providers
             Console.ForegroundColor = (ConsoleColor)textColor;
             Console.WriteLine(output);
             Console.ForegroundColor = current;
+
+            await Task.CompletedTask;
         }
     }
 }
