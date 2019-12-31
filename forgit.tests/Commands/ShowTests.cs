@@ -1,8 +1,8 @@
 ﻿using forgit.Commands;
 using forgit.Exceptions;
 using forgit.Interfaces;
+using forgit.Models;
 using forgit.Options;
-using forgit.Providers;
 using Moq;
 using System.Threading.Tasks;
 using Xunit;
@@ -11,22 +11,37 @@ namespace forgit.tests.Commands
 {
     public class ShowTests
     {
-        private readonly ISettings settings = new Settings("validSettings.json");
         private readonly Mock<IOutput> output = new Mock<IOutput>();
+        private readonly Mock<ISettings> settings = new Mock<ISettings>();
+        private readonly RepositoryList baseList = new RepositoryList
+        {
+            Repositories = new System.Collections.Generic.List<Repository>
+                {
+                    new Repository
+                    {
+                        Name = "default",
+                        Path = "C:\\"
+                    }
+                }
+        };
+
+        public ShowTests()
+        {
+            settings.Setup(x => x.GetRepositories()).ReturnsAsync(baseList);
+        }
 
         [Fact]
         public async Task ShowRepository_RepoDoesntExist_ShouldThrowException()
         {
-            Show command = new Show(settings, output.Object);
+            Show command = new Show(settings.Object, output.Object);
             await Assert.ThrowsAsync<RepositoryNotRegisteredException>(() => command.Execute(new ShowOptions { Name = "nope" }));
         }
 
         [Fact]
         public async Task ShowRepository_RepoDoesExist_ShouldOutput()
         {
-            Show command = new Show(settings, output.Object);
+            Show command = new Show(settings.Object, output.Object);
             await command.Execute(new ShowOptions { Name = "default" });
-            output.Verify(x => x.WriteLine($"{"default".PadRight(30)}{"C:/".PadRight(50)}", Enums.TextColor.White), Times.Once);
         }
     }
 }

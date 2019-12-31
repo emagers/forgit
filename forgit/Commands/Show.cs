@@ -28,7 +28,8 @@ namespace forgit.Commands
                 throw new RepositoryNotRegisteredException(showOptions.Name);
             }
 
-            await output.WriteLine($"{repo.Name.PadRight(30)}{repo.Path.PadRight(50)}", Enums.TextColor.White);
+            await output.Write($"\n{repo.Name.PadRight(30)}\t", Enums.TextColor.Cyan);
+            await output.WriteLine($"{repo.Path.PadRight(50)}\n", Enums.TextColor.White);
         }
     }
 }

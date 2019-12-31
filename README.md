@@ -1,7 +1,15 @@
 # forgit
 ![](https://github.com/emagers/forgit/workflows/build/badge.svg)
 
-A git CLI helper to allow running git commands for any repository from any directory
+A git CLI helper to allow running git commands for any repository from any directory.
+
+## Building
+
+Simply pull the project and run `dotnet build` (requires [dotnetcore 3.1.100](https://dotnet.microsoft.com/download))
+
+## Contributing
+
+Open an issue, fork the project, and open a pull request.
 
 ## Usage
 
@@ -13,34 +21,14 @@ You can also clone using forgit which will also register the repository:
 
 ### forgit commands
 
-* list
-   * Shows all the repositories currently registered.
-* show 
-   * args
-      * -n, --name
-	     * (required) the name of the repository to display.
-   * Displays the given repository's path.
-* register
-   * args
-      * -p, --path
-	     * (optional) the path to the repository (defaults to the current directory).
-      * -n, --name
-	     * (optional) the name to use to reference the repository (defaults to the path directory name).
-   * Registers the provided repository with forgit.
-* clone
-   * args
-      * -u, --url
-	     * (required) the clone url for the repository.
-      * -p, --path
-	     * (optional) the path to the repository (defaults to the current directory).
-      * -n, --name
-	     * (optional) the name to use to reference the repository (defaults to the path directory name).
-   * Clones the provided repository at the given path, then registers it with forgit.
-* unregister
-   * args
-      * -n, --name
-	     * (required) the name of the repository to unregister.
-   * Unregisters a repository with forgit.
+|Command|Description|
+|---|---|
+|list|Shows all the repositories currently registered.|
+|show|Displays the given repository's path.|
+|register|Registers the provided repository with forgit.|
+|unregister|Unregisters a repository with forgit.|
+|clone|Clones the provided repository at the given path, then registers it with forgit.|
+|help|Displays the command list and the arguments for each command.|
 
 ### git commands with forgit
 

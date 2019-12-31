@@ -22,12 +22,6 @@ namespace forgit.Commands
 
             RepositoryList repositoryList = await settings.GetRepositories();
 
-            Repository repository = repositoryList.Repositories.FirstOrDefault(repo => repo.Name.Equals(registerOptions.Name, StringComparison.OrdinalIgnoreCase));
-            if (repository != null)
-            {
-                throw new RepositoryAlreadyRegisteredException(repository.Name, repository.Path);
-            }
-
             if (string.IsNullOrEmpty(registerOptions.Path))
             {
                 registerOptions.Path = Environment.CurrentDirectory;
@@ -39,6 +33,12 @@ namespace forgit.Commands
                 registerOptions.Name = directoryInfo.Name;
             }
 
+            Repository repository = repositoryList.Repositories.FirstOrDefault(repo => repo.Name.Equals(registerOptions.Name, StringComparison.OrdinalIgnoreCase));
+            if (repository != null)
+            {
+                throw new RepositoryAlreadyRegisteredException(repository.Name, repository.Path);
+            }
+
             repositoryList.Repositories.Add(new Repository
             {
                 Name = registerOptions.Name,
@@ -46,7 +46,9 @@ namespace forgit.Commands
             });
             await settings.SaveRepositories(repositoryList);
 
-            await output.WriteLine($"{registerOptions.Name} has been registered at {registerOptions.Path}", Enums.TextColor.Cyan);
+            await output.Write(registerOptions.Name, Enums.TextColor.Cyan);
+            await output.Write(" has been registered at ", (Enums.TextColor)Console.ForegroundColor);
+            await output.Write($"{registerOptions.Path}\n", Enums.TextColor.White);
         }
     }
 }

@@ -37,7 +37,11 @@ namespace forgit.Commands
 
             if (processRunner.InvokeProcess(cloneOptions.Path, "git", $"clone {cloneOptions.Url}"))
             {
-                await output.WriteLine($"{cloneOptions.Url} was cloned to {cloneOptions.Path} with the project name: {cloneOptions.Name}", TextColor.Cyan);
+                await output.Write($"\n{cloneOptions.Url}", TextColor.White);
+                await output.Write(" was cloned to ", (TextColor)Console.ForegroundColor);
+                await output.Write(cloneOptions.Path, TextColor.White);
+                await output.Write(" with the project name ", (TextColor)Console.ForegroundColor);
+                await output.WriteLine(cloneOptions.Name, TextColor.Cyan);
                 
                 await register.Execute(new RegisterOptions
                 {
