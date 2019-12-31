@@ -15,11 +15,13 @@ namespace forgit.Commands
         {
             RepositoryList repositories = await settings.GetRepositories();
 
+            await output.WriteLine("", Enums.TextColor.White);
             foreach (Repository repo in repositories.Repositories)
             {
-                await output.Write($"\n{repo.Name.PadRight(30)}\t", Enums.TextColor.Cyan);
-                await output.WriteLine($"{repo.Path.PadRight(50)}\n", Enums.TextColor.White);
+                await output.Write($"{repo.Name.PadRight(30)}\t", Enums.TextColor.Cyan);
+                await output.WriteLine($"{repo.Path.PadRight(50)}", Enums.TextColor.White);
             }
+            await output.WriteLine("", Enums.TextColor.White);
         }
     }
 }

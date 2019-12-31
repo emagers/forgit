@@ -41,7 +41,7 @@ namespace forgit.Commands
                 await output.Write(" was cloned to ", (TextColor)Console.ForegroundColor);
                 await output.Write(cloneOptions.Path, TextColor.White);
                 await output.Write(" with the project name ", (TextColor)Console.ForegroundColor);
-                await output.Write(cloneOptions.Name, TextColor.Cyan);
+                await output.WriteLine(cloneOptions.Name, TextColor.Cyan);
                 
                 await register.Execute(new RegisterOptions
                 {
